@@ -1,0 +1,9 @@
+rootProject.name = 'tweets'
+
+include ':twiter'
+project(':twiter').projectDir = new File('src/twiter')
+
+include ':shared'
+project(':shared').projectDir = new File('src/shared')
+
+

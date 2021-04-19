@@ -1,0 +1,16 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.rallibau.twiter.hasTag.domain.HasTag" table="TAGS">
+        <composite-id name="id" class="com.rallibau.twiter.hasTag.domain.Text" access="field">
+            <key-property column="id" name="value" length="36" access="field" />
+        </composite-id>
+        <component name="used" class="com.rallibau.twiter.hasTag.domain.Used" access="field">
+            <property name="value" column="used" type="integer" access="field" />
+        </component>
+
+    </class>
+</hibernate-mapping>
