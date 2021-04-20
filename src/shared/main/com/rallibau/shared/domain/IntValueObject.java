@@ -2,7 +2,7 @@ package com.rallibau.shared.domain;
 
 import java.util.Objects;
 
-public abstract class IntValueObject {
+public  class IntValueObject {
     private Integer value;
 
     public IntValueObject(Integer value) {

@@ -1,5 +1,6 @@
 package com.rallibau.shared.infrastructure.hibernate;
 
+import com.rallibau.shared.domain.IntValueObject;
 import com.rallibau.shared.domain.StringValueObject;
 import com.rallibau.shared.domain.criteria.Criteria;
 import com.rallibau.shared.domain.criteria.Filter;
@@ -15,7 +16,7 @@ import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 public final class HibernateCriteriaConverter<T> {
-    private final CriteriaBuilder                                                 builder;
+    private final CriteriaBuilder builder;
     private final HashMap<FilterOperator, BiFunction<Filter, Root<T>, Predicate>> predicateTransformers = new HashMap<FilterOperator, BiFunction<Filter, Root<T>, Predicate>>() {{
         put(FilterOperator.EQUAL, HibernateCriteriaConverter.this::equalsPredicateTransformer);
         put(FilterOperator.NOT_EQUAL, HibernateCriteriaConverter.this::notEqualsPredicateTransformer);
@@ -31,13 +32,13 @@ public final class HibernateCriteriaConverter<T> {
 
     public CriteriaQuery<T> convert(Criteria criteria, Class<T> aggregateClass) {
         CriteriaQuery<T> hibernateCriteria = builder.createQuery(aggregateClass);
-        Root<T>          root              = hibernateCriteria.from(aggregateClass);
+        Root<T> root = hibernateCriteria.from(aggregateClass);
 
         hibernateCriteria.where(formatPredicates(criteria.filters().filters(), root));
 
         if (criteria.order().hasOrder()) {
             Path<Object> orderBy = root.get(criteria.order().orderBy().value());
-            Order        order   = criteria.order().orderType().isAsc() ? builder.asc(orderBy) : builder.desc(orderBy);
+            Order order = criteria.order().orderType().isAsc() ? builder.asc(orderBy) : builder.desc(orderBy);
 
             hibernateCriteria.orderBy(order);
         }
@@ -64,8 +65,11 @@ public final class HibernateCriteriaConverter<T> {
     }
 
     private Predicate equalsPredicateTransformer(Filter filter, Root<T> root) {
-
-        return builder.equal(root.get(filter.field().value()), new StringValueObject(filter.value().value()));
+        if (filter.type() != null && filter.type().value() != null && filter.type().value().equals("integer")) {
+            return builder.equal(root.get(filter.field().value()).get("value"), Integer.valueOf(filter.value().value()) );
+        } else {
+            return builder.equal(root.get(filter.field().value()), new StringValueObject(filter.value().value()));
+        }
     }
 
     private Predicate notEqualsPredicateTransformer(Filter filter, Root<T> root) {
@@ -73,7 +77,7 @@ public final class HibernateCriteriaConverter<T> {
     }
 
     private Predicate greaterThanPredicateTransformer(Filter filter, Root<T> root) {
-        if (filter.type() != null && filter.type().value()!= null && filter.type().value().equals("date")) {
+        if (filter.type() != null && filter.type().value() != null && filter.type().value().equals("date")) {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH.mm.ss");
             try {
                 Date fecha = format.parse(filter.value().value());
@@ -89,7 +93,7 @@ public final class HibernateCriteriaConverter<T> {
     }
 
     private Predicate lowerThanPredicateTransformer(Filter filter, Root<T> root) {
-        if (filter.type()!= null && filter.type().value()!= null && filter.type().value().equals("date")) {
+        if (filter.type() != null && filter.type().value() != null && filter.type().value().equals("date")) {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH.mm.ss");
             try {
                 Date fecha = format.parse(filter.value().value());

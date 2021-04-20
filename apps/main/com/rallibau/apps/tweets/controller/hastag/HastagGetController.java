@@ -46,7 +46,7 @@ public class HastagGetController extends ApiController {
         );
 
         List<HasTag> hastags = hasTagSearch.search(criteria);
-        Integer i =0;
+        Integer i =1;
         for (HasTag hastag : hastags) {
             HashMap<String, String> tags = new HashMap<>();
             tags.put("text", hastag.id().value());

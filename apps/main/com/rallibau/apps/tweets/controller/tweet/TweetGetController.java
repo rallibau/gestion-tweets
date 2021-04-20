@@ -103,6 +103,7 @@ public final class TweetGetController extends ApiController {
         if(validado != null) {
             HashMap<String, String> filtroUsuario = new HashMap<>();
             filtroUsuario.put("field", "tweetValidation");
+            filtroUsuario.put("type", "integer");
             filtroUsuario.put("operator", FilterOperator.EQUAL.value());
             if(validado) {
                 filtroUsuario.put("value", "1");
