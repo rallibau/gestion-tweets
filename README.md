@@ -8,7 +8,7 @@ gradlew test --warning-mode all
 
 # run
 
-gradlew :run --args="products server"
+gradlew :run --args="tweets server"
 
 #url
 
