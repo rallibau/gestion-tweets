@@ -19,10 +19,10 @@ import java.util.Optional;
 @Service
 public class SpringTwitter implements TwiterApi {
 
-    public static final String CONSUMER_KEY = "BxW1Tds0JTYRNUvhcxNWfRlIO";
-    public static final String CONSUMER_SECRET = "OSfYl9D3JRC4R6q5aVzIAzoVoWcL3E8swgNFYnrcsjFOIMgufJ";
-    public static final String ACCESS_TOKEN = "324332251-Dnkekm8hlUWPS0akpM52agWIx5heFObUeydAGi1o";
-    public static final String ACCESS_TOKEN_SECRET = "HzBQU1FySlfSaSoVzZnH1lqBIGHcq6A3ik25psnRIKiDw";
+    public static final String CONSUMER_KEY = "";
+    public static final String CONSUMER_SECRET = "";
+    public static final String ACCESS_TOKEN = "";
+    public static final String ACCESS_TOKEN_SECRET = "";
     public static final List<String> ACCEPT_lANGUAGE = Arrays.asList("es", "fr", "it");
 
     private final TweetRepository tweetRepository;
